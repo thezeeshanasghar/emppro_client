@@ -7,7 +7,7 @@ var NodeWebcam = require( "node-webcam" );
  
  
 //Default options
- 
+let response= shared.readSetting();
 var opts = {
  
     //Picture related
@@ -65,7 +65,8 @@ var Webcam = NodeWebcam.create( opts );
 //Will automatically append location output type
 
 setInterval(function(){
-  if(IsEnable==true)
+  response= shared.readSetting();
+  if(response.SnapShotEnable==true)
   {
   Webcam.capture( "test_picture", function( err, data ) {
   // var file = urltoFile(data).then(function(file){
@@ -76,9 +77,9 @@ setInterval(function(){
   fs.writeFileSync("Images/"+shared.getRandomInt(9999999999)+".png",file.data);
 } );
   }else{
-    console.log(IsEnable);
+    console.log(response.SnapShotEnable);
   }
   
-},10000)
+},response.SnapShot)
 
 };

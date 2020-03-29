@@ -1,7 +1,9 @@
 
 const {app, BrowserWindow,Tray,Menu} = require('electron')
 const path = require('path')
-
+let shared=require("./Shared.js");
+let response=shared.readSetting();
+var fs = require('fs'); 
 console.log(__dirname);
 var IsEnable=true;
 var KeyIsEnable=true;
@@ -17,8 +19,9 @@ function createWindow () {
     }
   
   })
-  mainWindow.loadFile('index.html')
+ 
   mainWindow.setMenuBarVisibility(false)
+  mainWindow.loadFile('Setting.html')
 }
 
 app.whenReady().then(
@@ -29,35 +32,49 @@ app.whenReady().then(
     const trayMenuTemplate = [
     {label:"ScreenShot",submenu:[
       { label: 'Enable ScreenShot', type: 'radio', click: function () {
-        IsEnable=true;
+        response.SnapShotEnable=true;
+       // fs.writeFile("./Storage/Setting.json",response);
       }
         },
      { label: 'Disable ScreenShot', type: 'radio', click: function () {
-      IsEnable=false;
+      response.SnapShotEnable=false;
+     // fs.writeFile("./Storage/Setting.json",response);
      }
        }
     ]},
     {label:"Keyboard Logging",submenu:[
       { label: 'Enable logging', type: 'radio', click: function () {
-        KeyIsEnable=true;
+       
+        response.KeyboardEnable=true;
+        //fs.writeFile("./Storage/Setting.json",response);
       }
         },
      { label: 'Disable logging', type: 'radio', click: function () {
-      KeyIsEnable=false;
+      response.KeyboardEnable=false;
+   //   fs.writeFile("./Storage/Setting.json",response);
      }
        }
     ]},
     ,
     {label:"Mouse Logging",submenu:[
       { label: 'Enable logging', type: 'radio', click: function () {
-        mouseIsEnable=true;
+        response.MouseEnable=true;
+
+       // fs.writeFile("./Storage/Setting.json",response);
       }
         },
      { label: 'Disable logging', type: 'radio', click: function () {
-      mouseIsEnable=false;
+      response.MouseEnable=false;
+    //  fs.writeFile("./Storage/Setting.json",response);
      }
        }
     ]},
+    {
+      label: 'Setting',
+      click: function () {
+        createWindow();
+      }
+   },
        {
           label: 'Close Application',
           click: function () {
@@ -83,25 +100,9 @@ app.on('activate', function () {
 app.on('ready', () => { 
   win = new BrowserWindow({ show: false }); 
 });
-function decodeBase64Image(dataString) {
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
-
-  if (matches.length !== 3) {
-    return new Error('Invalid input string');
-  }
-
-  response.type = matches[1];
-  response.data = new Buffer(matches[2], 'base64');
-
-  return response;
-}
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
    let WebCam = require("./WebCam.js");
    WebCam(IsEnable);
  
-let KeyboardLogger=require("./Keyboardlogging");
+let KeyboardLogger=require("./Keyboardlogging.js");
 KeyboardLogger(KeyIsEnable);
+

@@ -15,9 +15,13 @@ const decodeBase64Image = (dataString) => {
  const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max)); 
  }
- 
+ const readSetting=()=>{
+  let jsonData = require('./Storage/Settings.json');
+  return jsonData;
+ }
  module.exports = {
     decodeBase64Image, 
     getRandomInt,
+    readSetting
      // anotherMethod
  };
