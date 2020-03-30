@@ -19,9 +19,24 @@ const decodeBase64Image = (dataString) => {
   let jsonData = require('./Storage/Settings.json');
   return jsonData;
  }
+ const PostData=(data)=>{
+  var fs = require('fs'); 
+
+   let response=[];
+   response = require('./Storage/Data.json');
+   console.log(response)
+   if(response.length!=0)
+   {
+    response.push(data)
+   }else{
+     response=data;
+   }
+  
+  fs.writeFileSync("./Storage/Data.json",JSON.stringify(response));
+ }
  module.exports = {
     decodeBase64Image, 
     getRandomInt,
-    readSetting
-     // anotherMethod
+    readSetting,
+    PostData
  };
