@@ -1,8 +1,1 @@
-{
-    "SnapShot":10000,
-    "SnapShotEnable":true ,
-     "Keyboard":600000,
-     "KeyboardEnable":true ,
-      "mouse":600000,
-      "MouseEnable":true 
-}
+{"SnapShot":10000,"SnapShotEnable":true,"Keyboard":10000,"KeyboardEnable":true,"mouse":10000,"MouseEnable":false}

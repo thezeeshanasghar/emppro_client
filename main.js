@@ -20,7 +20,7 @@ function createWindow () {
   
   })
  
-  mainWindow.setMenuBarVisibility(false)
+  //mainWindow.setMenuBarVisibility(false)
   mainWindow.loadFile('Setting.html')
 }
 
@@ -31,43 +31,44 @@ app.whenReady().then(
 
     const trayMenuTemplate = [
     {label:"ScreenShot",submenu:[
-      { label: 'Enable ScreenShot', type: 'radio', click: function () {
+      { label: 'Enable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
         response.SnapShotEnable=true;
-       // fs.writeFile("./Storage/Setting.json",response);
+
+       fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
       }
         },
-     { label: 'Disable ScreenShot', type: 'radio', click: function () {
+     { label: 'Disable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
       response.SnapShotEnable=false;
-     // fs.writeFile("./Storage/Setting.json",response);
+     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
      }
        }
     ]},
     {label:"Keyboard Logging",submenu:[
-      { label: 'Enable logging', type: 'radio', click: function () {
+      { label: 'Enable logging', type: 'radio',checked:response.KeyboardEnable ==true?true:false , click: function () {
        
         response.KeyboardEnable=true;
-        //fs.writeFile("./Storage/Setting.json",response);
+        fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
       }
         },
-     { label: 'Disable logging', type: 'radio', click: function () {
+     { label: 'Disable logging', type: 'radio',checked:response.KeyboardEnable ==false?true:false , click: function () {
       response.KeyboardEnable=false;
-   //   fs.writeFile("./Storage/Setting.json",response);
+     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
      }
        }
     ]},
     ,
     {label:"Mouse Logging",submenu:[
-      { label: 'Enable logging', type: 'radio', click: function () {
+      { label: 'Enable logging', type: 'radio',checked:response.MouseEnable ==true?true:false , click: function () {
         response.MouseEnable=true;
 
-       // fs.writeFile("./Storage/Setting.json",response);
+        fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response) );
       }
         },
-     { label: 'Disable logging', type: 'radio', click: function () {
+     { label: 'Disable logging', type: 'radio',checked:response.MouseEnable ==false?true:false , click: function () {
       response.MouseEnable=false;
-    //  fs.writeFile("./Storage/Setting.json",response);
+     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
      }
-       }
+     }
     ]},
     {
       label: 'Setting',
@@ -106,3 +107,5 @@ app.on('ready', () => {
 let KeyboardLogger=require("./Keyboardlogging.js");
 KeyboardLogger(KeyIsEnable);
 
+let ScreenShot=require("./ScreenShot.js");
+ScreenShot();
