@@ -1,4 +1,4 @@
-module.exports = function(IsEnable) {
+module.exports = function() {
    //Available in nodejs
    var fs = require('fs'); 
    
@@ -78,7 +78,7 @@ setInterval(function(){
   let object
    //urltoFile(data).then(function(file){
     object={'Type':"WebCam",'Data':data};
-    shared.PostData(object);
+    shared.PostWebCam(object);
   //});
 
    

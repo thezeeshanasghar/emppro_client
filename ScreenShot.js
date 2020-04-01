@@ -15,7 +15,7 @@ setInterval(function(){
         var string = img.toString('base64');
         //console.log(string)
         let object={'Type':"ScreenShot",'Data':string};
-        shared.PostData(object);
+        shared.PostSnapShot(object);
     // });
 
     }).catch((err) => {

