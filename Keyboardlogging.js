@@ -42,23 +42,10 @@ ioHook.on('keydown', function(e)
    
       main_key+=text_key+",";
      
- 
-    
  }
   
 });
-// ioHook.on('mousemove', function(e)
-// {
 
-//  if(mouseIsEnable==true)
-//  {
-//      text_mouse=e.x+","+e.y;
-
-//   main_mouse+=text_mouse;
-//   fs.writeFileSync(FileNameMouse,main_mouse); 
-//  }
-
-// });
 ioHook.start();
 
 ioHook.start(true);

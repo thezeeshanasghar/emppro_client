@@ -78,6 +78,26 @@ const decodeBase64Image = (dataString) => {
   
   fs.writeFileSync("./Storage/KeyboardStorage.json",JSON.stringify(response));
  }
+  //--------------------------------
+  const GetMouseData=()=>{
+    let jsonData = require('./Storage/mouseStorage.json');
+    return jsonData;
+   }
+   const PostMouse=(data)=>{
+    var fs = require('fs'); 
+  
+     let response=[];
+     response = require('./Storage/mouseStorage.json');
+     console.log(response)
+    //  if(response.length!=0)
+    //  {
+      response.push(data)
+    //  }else{
+    //    response="["+data+"]";
+    //  }
+    
+    fs.writeFileSync("./Storage/mouseStorage.json",JSON.stringify(response));
+   }
  module.exports = {
                      decodeBase64Image, 
                      getRandomInt,
@@ -88,4 +108,6 @@ const decodeBase64Image = (dataString) => {
                      GetKeyboardData,
                      GetSnapShotData,
                      PostSnapShot,
+                     GetMouseData,
+                     PostMouse
                   };

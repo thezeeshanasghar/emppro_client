@@ -1,1 +1,1 @@
-{"PostRequest":600000,"SnapShot":600000,"SnapShotEnable":false,"Keyboard":600000,"KeyboardEnable":false,"mouse":600000,"MouseEnable":false,"ScreenShot":10000,"ScreenShotEnable":false}
+{"PostRequest":600000,"SnapShot":600000,"SnapShotEnable":false,"Keyboard":600000,"KeyboardEnable":true,"mouse":600000,"MouseEnable":false,"ScreenShot":10000,"ScreenShotEnable":false}
