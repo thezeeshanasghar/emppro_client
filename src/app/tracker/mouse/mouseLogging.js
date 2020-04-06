@@ -5,48 +5,26 @@ module.exports = function() {
   
   const ioHook = require('../../../../node_modules/iohook');
   let response= shared.readSetting();
-  var mouseresponse=[];
+  var mouseCount=0;
   setInterval(function(){
     response= shared.readSetting();
-    
-  var FileNamemouse="../../../Images/"+"Mouse-"+shared.getRandomInt(9999999999)+".txt";
-  if(mouseresponse.length>0)
+    if(mouseCount>0)
     {
-      fs.writeFileSync(FileNamemouse,JSON.stringify(mouseresponse)); 
-   
-
-  let object={'Type':"Mouse",'Data':JSON.stringify(mouseresponse)};
-      shared.PostMouse(object);
-  // Decode the String
-  // var decodedString = Base64.decode(encodedString);
-  // console.log(decodedString); 
+      console.log("Its Happened");
+    let object={'Type':"Mouse",'Out':JSON.stringify(mouseCount)};
+      shared.PostKeyboard(object);
     }
-     mouseresponse=[];
+    mouseCount=0;
   },response.mouse)
    
   
   ioHook.on("mouseclick",function(msg){
+ 
     if(response.MouseEnable==true)
     {
      
-      mouseresponse.push(msg);
+      mouseCount++;
         
-    }
-  });
-  
-  ioHook.on("mousewheel",function(msg){
-    if(response.MouseEnable==true)
-    {
-     
-    mouseresponse.push(msg);
-    }
-  });
-  
-  ioHook.on("mousedrag",function(msg){
-    if(response.MouseEnable==true)
-    {
-     
-    mouseresponse.push(msg);
     }
   });
   ioHook.start();
