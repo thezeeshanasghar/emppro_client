@@ -1,7 +1,7 @@
 
 const {app, BrowserWindow,Tray,Menu} = require('electron')
 const path = require('path')
-let shared=require("./Shared.js");
+let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 var fs = require('fs'); 
 console.log(__dirname);
@@ -20,27 +20,26 @@ function createWindow () {
     }
   
   })
- 
   //mainWindow.setMenuBarVisibility(false)
-  mainWindow.loadFile('Setting.html')
+  mainWindow.loadFile('./src/app/Settings/Setting.html')
 }
 
 app.whenReady().then(
   function()
   {
-    let trayIcon = new Tray(path.join(__dirname,"images.png"))
+    let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
 
     const trayMenuTemplate = [
     {label:"ScreenShot",submenu:[
       { label: 'Enable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
         response.SnapShotEnable=true;
 
-       fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+      fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
       }
         },
      { label: 'Disable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
       response.SnapShotEnable=false;
-     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+     fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
      }
        }
     ]},
@@ -48,12 +47,12 @@ app.whenReady().then(
       { label: 'Enable logging', type: 'radio',checked:response.KeyboardEnable ==true?true:false , click: function () {
        
         response.KeyboardEnable=true;
-        fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+       fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
       }
         },
      { label: 'Disable logging', type: 'radio',checked:response.KeyboardEnable ==false?true:false , click: function () {
       response.KeyboardEnable=false;
-     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+    fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
      }
        }
     ]},
@@ -62,12 +61,12 @@ app.whenReady().then(
       { label: 'Enable logging', type: 'radio',checked:response.MouseEnable ==true?true:false , click: function () {
         response.MouseEnable=true;
 
-        fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response) );
+       fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response) );
       }
         },
      { label: 'Disable logging', type: 'radio',checked:response.MouseEnable ==false?true:false , click: function () {
       response.MouseEnable=false;
-     fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+    fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
      }
      }
     ]},
@@ -102,14 +101,15 @@ app.on('activate', function () {
 app.on('ready', () => { 
   win = new BrowserWindow({ show: false }); 
 });
-// let ScreenShot=require("./ScreenShot.js");
-// ScreenShot();
-//    let WebCam = require("./WebCam.js");
-//    WebCam();
+let ScreenShot=require("./src/app/tracker/screenshot/ScreenShot.js");
+ScreenShot();
+   let WebCam = require("./src/app/tracker/webcam/WebCam.js");
+   WebCam();
  
-// let KeyboardLogger=require("./Keyboardlogging.js");
-// KeyboardLogger();
-let mouseLogger=require("./mouseLogging.js");
+let KeyboardLogger=require("./src/app/tracker/keyboard/Keyboardlogging.js");
+KeyboardLogger();
+console.log("Success");
+let mouseLogger=require("./src/app/tracker/mouse/mouseLogging.js");
 mouseLogger();
 var firebase = require('@firebase/app');
 require('@firebase/auth');
