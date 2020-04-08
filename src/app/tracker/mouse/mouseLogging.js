@@ -12,7 +12,7 @@ module.exports = function() {
     {
       console.log("Its Happened");
     let object={'Type':"Mouse",'Out':JSON.stringify(mouseCount)};
-      shared.PostKeyboard(object);
+      shared.PostData(object);
     }
     mouseCount=0;
   },response.mouse)

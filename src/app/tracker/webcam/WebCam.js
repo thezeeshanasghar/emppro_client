@@ -28,7 +28,7 @@ setInterval(function(){
   let object
   
     object={'Type':"WebCam",'Data':data};
-    shared.PostKeyboard(object);
+    shared.PostData(object);
 
 } );
   }else{

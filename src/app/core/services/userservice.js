@@ -15,9 +15,6 @@
      });
  
 
-const print=()=>{
-  console.log("Hello")
-  }
 
 
   const Post=(path,body,callback)=>{
@@ -27,6 +24,6 @@ const print=()=>{
 
 
 module.exports = {
-  print,
+
   Post
     };

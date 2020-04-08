@@ -1,7 +1,9 @@
-var  ApplicationPath=require('path').resolve(__dirname, '../../../');
+let SetEnvirment=require("../../environments/environment.js");
+console.log(SetEnvirment.SettingPath());
+console.log(SetEnvirment.StoragePath());
+
 var services=require("../core/services/userservice");
-services.print();
-console.log(ApplicationPath);
+
 const decodeBase64Image = (dataString) => {
     var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
       response = {};
@@ -20,24 +22,24 @@ const decodeBase64Image = (dataString) => {
     return Math.floor(Math.random() * Math.floor(max)); 
  }
  const readSetting=()=>{
-  let jsonData = require('../../../Storage/Settings.json');
+  let jsonData = require(SetEnvirment.SettingPath());
   return jsonData;
  }
- const GetKeyboardData=()=>{
-   let jsonData = require('../../../Storage/KeyboardStorage.json');
+ const GetData=()=>{
+   let jsonData = require(SetEnvirment.StoragePath());
    return jsonData;
   }
- const PostKeyboard=(data)=>{
+ const PostData=(data)=>{
   var fs = require('fs'); 
    let response=[];
-   response = require('../../../Storage/KeyboardStorage.json');
+   response = require(SetEnvirment.StoragePath());
    console.log(response)
     response.push(data)
 
-    fs.writeFileSync(ApplicationPath+"/Storage/KeyboardStorage.json",JSON.stringify(response));
+    fs.writeFileSync(SetEnvirment.StoragePath(),JSON.stringify(response));
  }
       const fnPostData=(path,data)=>{
-         services.print();
+        
       services.Post(path,data,messagehandler);
     }
 
@@ -55,7 +57,7 @@ const decodeBase64Image = (dataString) => {
                      decodeBase64Image, 
                      getRandomInt,
                      readSetting,
-                     PostKeyboard,
+                     PostData,
                      fnPostData,
-                     GetKeyboardData
+                     GetData
                   };
