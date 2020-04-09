@@ -2,11 +2,19 @@
 const {app, BrowserWindow,Tray,Menu} = require('electron')
 
 const path = require('path');
-let shared=require("./src/app/shared/Shared.js");
-let response=shared.readSetting();
-var fs = require('fs'); 
-let SetEnvirment=require("./src/environments/environment.js");
+setTimeout(function(){
+  let SetEnvirment=require("./src/environments/environment.js");
 SetEnvirment.SetProject_dir();
+},0)
+
+setTimeout(function(){
+  
+
+let shared=require("./src/app/shared/Shared.js");
+
+
+var fs = require('fs'); 
+
 console.log(__dirname);
 const url = require('url')
 function createWindow () {
@@ -23,7 +31,7 @@ function createWindow () {
   //mainWindow.setMenuBarVisibility(false)
   mainWindow.loadFile('./src/app/Settings/Setting.html')
 }
-
+let response=shared.readSetting();
 app.whenReady().then(
   function()
   {
@@ -150,3 +158,5 @@ require('dns').resolve('www.google.com', function(err) {
 });
 
 },response.PostRequest)
+
+},1000)
