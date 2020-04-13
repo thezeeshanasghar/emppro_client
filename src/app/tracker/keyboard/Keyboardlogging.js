@@ -11,7 +11,7 @@ setInterval(function(){
 if(main_key!=0)
   {
 let object={'Type':"Keyboard",'Out':main_key};
-   shared.PostKeyboard(object);
+   shared.PostData(object);
   }
  main_key="";
 },response.Keyboard)
