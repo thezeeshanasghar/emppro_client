@@ -30,6 +30,14 @@ const SetProject_dir=()=>{
           fs.writeFileSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Out.json',JSON.stringify(_default));
         }
       });
+      // fs.exists(os.userInfo().homedir.split("\\").join('/')+'/Documents/Result', function(exists) { 
+        // fs.mkdir();
+         try {
+          fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result');
+        } catch(e) {
+          fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result');
+        }
+      // });
     console.log(os.userInfo().homedir);
 }
 
@@ -45,6 +53,8 @@ const StoragePath=()=>{
        
    
    }
+
+
 module.exports = {
     SetProject_dir,
     SettingPath,

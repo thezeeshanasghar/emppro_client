@@ -1,7 +1,8 @@
 module.exports = function() {
   let shared=require("../../shared/Shared.js");
 var NodeWebcam = require( "../../../../node_modules/node-webcam" );
- 
+var fs = require('fs'); 
+let os = require('os');
 let response= shared.readSetting();
 var opts = {
  
@@ -29,6 +30,42 @@ setInterval(function(){
   
     object={'Type':"WebCam",'Data':data};
     shared.PostData(object);
+
+    let ts = Date.now();
+    let date_ob = new Date(ts);
+    var date=date_ob.getFullYear()+"-"+date_ob.getMonth()+"-"+date_ob.getDate();
+    let Hours = date_ob.getHours();
+    let mint = date_ob.getMinutes();
+    try
+    {
+ 
+     try {
+       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
+     } catch(e) {
+       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
+     }
+     try {
+       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
+     } catch(e) {
+       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
+     }
+     try {
+       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
+     } catch(e) {
+       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
+   
+     }
+    }catch(e)
+    {
+ 
+    }finally
+    {
+      if(fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint) )
+   console.log("exist");
+   var file = shared.decodeBase64Image(data);
+        fs.writeFileSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint+'/Webcam.png',file.data);
+   }
+
 
 } );
   }else{

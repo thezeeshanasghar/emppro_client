@@ -7,6 +7,7 @@
     <title>Welcome</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='./src/assets/css/Settings.css'>
+
 </head>
 
 <body>
@@ -16,23 +17,26 @@
 
 
             <input type="button" value="Start Tracker" id="StartTracker" />
-
             <script>
                 const
                     ipc = require('electron').ipcRenderer,
 
-                    StartTracker = document.querySelector('#StartTracker'),
-                    asyncBtn = document.querySelector('#asyncBtn');
+                    StartTracker = document.querySelector('#StartTracker');
+
+                   
 
                 StartTracker.addEventListener('click', () => {
-
+                   // var events = $._data(document.getElementById("StartTracker"), "events");
+                    console.log(event);
                     ipc.sendSync('StartApp', 'App is Started');
 
                 });
 
 
             </script>
+            
         </div>
+
 </body>
 
 </html>

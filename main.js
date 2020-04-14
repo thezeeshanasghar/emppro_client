@@ -8,7 +8,6 @@ SetEnvirment.SetProject_dir();
 
 
 
-let shared=require("./src/app/shared/Shared.js");
 
 
 var mainWindow=null;
@@ -48,10 +47,12 @@ function createWindow () {
   mainWindow.loadFile('./welcome.html')
 }
 
-let response=shared.readSetting();
+
 app.whenReady().then(
+  
   function()
   {
+
     createWindow();
   }
 
@@ -79,6 +80,8 @@ app.on('ready', () => {
   win = new BrowserWindow({ show: false }); 
 });
 ipc.on('StartApp', (event, args) => {
+  let shared=require("./src/app/shared/Shared.js");
+let response=shared.readSetting();
 console.log(args);
   let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
 
