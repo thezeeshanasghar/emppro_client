@@ -83,82 +83,12 @@ ipc.on('StartApp', (event, args) => {
   let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 console.log(args);
-  let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
-
-  const trayMenuTemplate = [
-  {label:"SnapShot",submenu:[
-    { label: 'Enable SnapShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
-      response.SnapShotEnable=true;
-
-    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-    }
-      },
-   { label: 'Disable SnapShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
-    response.SnapShotEnable=false;
-   fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-   }
-     }
-  ]},{label:"ScreenShot",submenu:[
-    { label: 'Enable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==true?true:false  ,click: function () {
-      response.ScreenShotEnable=true;
-
-    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-    }
-      },
-   { label: 'Disable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==false?true:false ,click: function () {
-    response.ScreenShotEnable=false;
-   fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-   }
-     }
-  ]},
-  {label:"Keyboard Logging",submenu:[
-    { label: 'Enable logging', type: 'radio',checked:response.KeyboardEnable ==true?true:false , click: function () {
-     
-      response.KeyboardEnable=true;
-     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-    }
-      },
-   { label: 'Disable logging', type: 'radio',checked:response.KeyboardEnable ==false?true:false , click: function () {
-    response.KeyboardEnable=false;
-  fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-   }
-     }
-  ]},
-  ,
-  {label:"Mouse Logging",submenu:[
-    { label: 'Enable logging', type: 'radio',checked:response.MouseEnable ==true?true:false , click: function () {
-      response.MouseEnable=true;
-
-     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response) );
-    }
-      },
-   { label: 'Disable logging', type: 'radio',checked:response.MouseEnable ==false?true:false , click: function () {
-    response.MouseEnable=false;
-  fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
-   }
-   }
-  ]},
-  {
-    label: 'Setting',
-    click: function () {
-      createSettingWindow();
-    }
- },
-     {
-        label: 'Close Application',
-        click: function () {
-          if (process.platform !== 'darwin') app.quit()
-        }
-     }
-  ]
-  
-  let trayMenu = Menu.buildFromTemplate(trayMenuTemplate)
-  trayIcon.setContextMenu(trayMenu)
-  /*--------------------------------------------------*/
-  console.log("Tracker Starts")
+ if(args!="disabled")
+ {
+    console.log("Tracker Starts")
  //Screenshot
 let ScreenShot=require("./src/app/tracker/screenshot/ScreenShot.js");
-ScreenShot();
+ScreenShot(args);
 //Screenshot
 let WebCam = require("./src/app/tracker/webcam/WebCam.js");
  WebCam();
@@ -168,7 +98,7 @@ KeyboardLogger();
 //Mouse Logger
 let mouseLogger=require("./src/app/tracker/mouse/mouseLogging.js");
 mouseLogger();
-setInterval(function(){
+ setInterval(function(){
   require('dns').resolve('www.google.com', function(err) {
     if (err) {
        console.log("No connection");
@@ -192,6 +122,100 @@ setInterval(function(){
   });
   
   },response.PostRequest)
-mainWindow.hide();
-  });
+ }else{
+
+  console.log("Tracker Paused")
+ }
+  /*--------------------------------------------------*/
  
+
+  });
+
+
+  ipc.on('StartTray', (event, args) => {
+    let shared=require("./src/app/shared/Shared.js");
+    let response=shared.readSetting();
+    let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
+
+    const trayMenuTemplate = [
+    {label:"SnapShot",submenu:[
+      { label: 'Enable SnapShot', type: 'radio',checked:response.SnapShotEnable ==true?true:false  ,click: function () {
+        response.SnapShotEnable=true;
+  
+      fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+      }
+        },
+     { label: 'Disable SnapShot', type: 'radio',checked:response.SnapShotEnable ==false?true:false ,click: function () {
+      response.SnapShotEnable=false;
+     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+     }
+       }
+    ]},{label:"ScreenShot",submenu:[
+      { label: 'Enable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==true?true:false  ,click: function () {
+        response.ScreenShotEnable=true;
+  
+      fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+      }
+        },
+     { label: 'Disable ScreenShot', type: 'radio',checked:response.ScreenShotEnable ==false?true:false ,click: function () {
+      response.ScreenShotEnable=false;
+     fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+     }
+       }
+    ]},
+    {label:"Keyboard Logging",submenu:[
+      { label: 'Enable logging', type: 'radio',checked:response.KeyboardEnable ==true?true:false , click: function () {
+       
+        response.KeyboardEnable=true;
+       fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+      }
+        },
+     { label: 'Disable logging', type: 'radio',checked:response.KeyboardEnable ==false?true:false , click: function () {
+      response.KeyboardEnable=false;
+    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+     }
+       }
+    ]},
+    ,
+    {label:"Mouse Logging",submenu:[
+      { label: 'Enable logging', type: 'radio',checked:response.MouseEnable ==true?true:false , click: function () {
+        response.MouseEnable=true;
+  
+       fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response) );
+      }
+        },
+     { label: 'Disable logging', type: 'radio',checked:response.MouseEnable ==false?true:false , click: function () {
+      response.MouseEnable=false;
+    fs.writeFileSync(SetEnvirment.SettingPath(),JSON.stringify(response));
+     }
+     }
+    ]},
+    {
+      label: 'Setting',
+      click: function () {
+        createSettingWindow();
+      }
+   },
+       {
+          label: 'Close Application',
+          click: function () {
+            if (process.platform !== 'darwin') app.quit()
+          }
+       }
+    ]
+    
+    let trayMenu = Menu.buildFromTemplate(trayMenuTemplate)
+    trayIcon.setContextMenu(trayMenu)
+
+    mainWindow.hide();
+  })
+  ipc.on('Setting', (event, args) => 
+  {
+
+    mainWindow.loadFile('./src/app/Settings/Setting.html');
+  })
+  ipc.on('return', (event, args) => 
+  {
+
+    mainWindow.loadFile('./welcome.html');
+  })

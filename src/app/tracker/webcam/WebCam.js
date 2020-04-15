@@ -20,57 +20,68 @@ var opts = {
 };
 var Webcam = NodeWebcam.create( opts );
  
+
+
 setInterval(function(){
-  response= shared.readSetting();
-  if(response.SnapShotEnable==true)
+  try
   {
-  Webcam.capture( "test_picture", function( err, data ) {
-
-  let object
+    response= shared.readSetting();
+    if(response.SnapShotEnable==true)
+    {
+      
+    Webcam.capture( "test_picture", function( err, data ) {
   
-    object={'Type':"WebCam",'Data':data};
-    shared.PostData(object);
-
-    let ts = Date.now();
-    let date_ob = new Date(ts);
-    var date=date_ob.getFullYear()+"-"+date_ob.getMonth()+"-"+date_ob.getDate();
-    let Hours = date_ob.getHours();
-    let mint = date_ob.getMinutes();
-    try
-    {
- 
-     try {
-       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
-     } catch(e) {
-       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
-     }
-     try {
-       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
-     } catch(e) {
-       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
-     }
-     try {
-       fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
-     } catch(e) {
-       fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
+    let object
+    
+      object={'Type':"WebCam",'Data':data};
+      shared.PostData(object);
+  
+      let ts = Date.now();
+      let date_ob = new Date(ts);
+      var date=date_ob.getFullYear()+"-"+date_ob.getMonth()+"-"+date_ob.getDate();
+      let Hours = date_ob.getHours();
+      let mint = date_ob.getMinutes();
+      try
+      {
    
+       try {
+         fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
+       } catch(e) {
+         fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date);
+       }
+       try {
+         fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
+       } catch(e) {
+         fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours);
+       }
+       try {
+         fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
+       } catch(e) {
+         fs.mkdirSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint);
+     
+       }
+      }catch(e)
+      {
+   
+      }finally
+      {
+        if(fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint) )
+     console.log("exist");
+     var file = shared.decodeBase64Image(data);
+          fs.writeFileSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint+'/Webcam.png',file.data);
      }
-    }catch(e)
-    {
- 
-    }finally
-    {
-      if(fs.statSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint) )
-   console.log("exist");
-   var file = shared.decodeBase64Image(data);
-        fs.writeFileSync(os.userInfo().homedir.split("\\").join('/')+'/Documents/Storage/Result/'+date+"/"+Hours+"/"+mint+'/Webcam.png',file.data);
-   }
+  
+  
+  } );
+    }else{
+      console.log(response.SnapShotEnable);
+    }
 
-
-} );
-  }else{
-    console.log(response.SnapShotEnable);
+  }catch(ex)
+  {
+console.log("Web Cam Busy")
   }
+  
   
 },response.SnapShot)
 

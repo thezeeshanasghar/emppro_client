@@ -1,5 +1,9 @@
 let shared=require("../shared/Shared.js");
 let response=shared.readSetting();
+const ipc = require('electron').ipcRenderer,
+
+Return = document.querySelector('#Return');
+
 var fs = require('fs'); 
 function GetSettings()
 {
@@ -32,3 +36,7 @@ function UpdateRecord()
 }
 
 GetSettings();
+Return.addEventListener('click', () => {
+    ipc.sendSync('return', 'Enable');
+
+});

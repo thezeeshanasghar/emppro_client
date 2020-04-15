@@ -16,27 +16,50 @@
         <div class="form-style-5">
 
 
-            <input type="button" value="Start Tracker" id="StartTracker" />
-            <script>
-                const
-                    ipc = require('electron').ipcRenderer,
+            <input type="button"   value="Start Tracker" id="StartTracker" />
+            <input type="button" value="Pause Tracker" id="PauseTracker" />
+            <input type="button" value="Move To Tray" id="MoveToTray" />
 
-                    StartTracker = document.querySelector('#StartTracker');
+            <button type="button"   style="float: right;border: 1px black;background: black;color: white;" id="Setting" >Setting</button>
 
-                   
-
-                StartTracker.addEventListener('click', () => {
-                   // var events = $._data(document.getElementById("StartTracker"), "events");
-                    console.log(event);
-                    ipc.sendSync('StartApp', 'App is Started');
-
-                });
-
-
-            </script>
-            
         </div>
 
+
+      
+        <script>
+            const
+                ipc = require('electron').ipcRenderer,
+
+                StartTracker = document.querySelector('#StartTracker'),
+                MoveToTray = document.querySelector('#MoveToTray'),
+                Setting = document.querySelector('#Setting'),
+                PauseTracker = document.querySelector('#PauseTracker');
+
+
+
+            StartTracker.addEventListener('click', () => {
+                // var events = $._data(document.getElementById("StartTracker"), "events");
+                console.log(event);
+                ipc.sendSync('StartApp', 'Enable');
+                StartTracker.disabled = true;
+                PauseTracker.disabled=false;
+            });
+            PauseTracker.addEventListener('click', () => {
+                ipc.sendSync('StartApp', 'Disable');
+                StartTracker.disabled = false;
+                PauseTracker.disabled=true;
+            });
+            Setting.addEventListener('click', () => {
+                ipc.sendSync('Setting', 'Enable');
+                StartTracker.disabled = false;
+
+            });
+            MoveToTray.addEventListener('click', () => {
+                ipc.sendSync('StartTray', 'Enable');
+                
+
+            });
+        </script>
 </body>
 
 </html>

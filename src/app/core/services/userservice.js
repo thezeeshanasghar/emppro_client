@@ -19,7 +19,15 @@
 
   const Post=(path,body,callback)=>{
           if(!path || !body) return
-      firebase.default.database().ref(path).set(body,callback);
+          try{
+
+            firebase.default.database().ref(path).set(body,callback);
+            
+          }catch(ex)
+          {
+
+          }
+     
     }
 
 
