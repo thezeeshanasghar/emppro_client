@@ -39,23 +39,49 @@
 
             StartTracker.addEventListener('click', () => {
                 // var events = $._data(document.getElementById("StartTracker"), "events");
-                console.log(event);
+                //try{
+                    console.log(event);
                 ipc.sendSync('StartApp', 'Enable');
-                StartTracker.disabled = true;
-                PauseTracker.disabled=false;
+                // StartTracker.disabled = true;
+                // PauseTracker.disabled=false;
+            //   }catch(ex)
+            //     {
+
+            //     }
+          
             });
             PauseTracker.addEventListener('click', () => {
-                ipc.sendSync('StartApp', 'Disable');
-                StartTracker.disabled = false;
-                PauseTracker.disabled=true;
+               
+
+                    ipc.sendSync('StartApp', 'Disable');
+                    // StartTracker.disabled = false;
+                    // PauseTracker.disabled=true;
+                
+              
             });
             Setting.addEventListener('click', () => {
-                ipc.sendSync('Setting', 'Enable');
-                StartTracker.disabled = false;
+               // try{
+
+                    ipc.sendSync('Setting','Enable');
+                // StartTracker.disabled = false;
+                // }catch(e)
+                // {
+
+
+                // }
+              
 
             });
             MoveToTray.addEventListener('click', () => {
-                ipc.sendSync('StartTray', 'Enable');
+                // try
+                // {
+
+                    ipc.sendSync('StartTray', { type: 'Enable'});
+
+                // }catch(e)
+                // {
+
+                // }
                 
 
             });

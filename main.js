@@ -80,6 +80,7 @@ app.on('ready', () => {
   win = new BrowserWindow({ show: false }); 
 });
 ipc.on('StartApp', (event, args) => {
+  event.returnValue = 'StartApp';
   let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 console.log(args);
@@ -132,7 +133,25 @@ mouseLogger();
   });
 
 
-  ipc.on('StartTray', (event, args) => {
+  //ipc.on('StartTray', (event, args) => {
+  //console.log("Start Tray")
+   
+  //})
+  ipc.on('Setting', (event, args) => 
+  {
+    event.returnValue = 'Settings';
+    mainWindow.loadFile('./src/app/Settings/Setting.html');
+  })
+  ipc.on('return', (event, args) => 
+  {
+
+    mainWindow.loadFile('./welcome.html');
+  })
+
+ipc.on('StartTray', (event, args) => {
+ console.log("start Tray");
+ event.returnValue = 'Tray Started';
+    event.returnValue = 'Main said I received your Sync message';
     let shared=require("./src/app/shared/Shared.js");
     let response=shared.readSetting();
     let trayIcon = new Tray(path.join(__dirname,"./src/assets/images/logo.png"))
@@ -208,14 +227,4 @@ mouseLogger();
     trayIcon.setContextMenu(trayMenu)
 
     mainWindow.hide();
-  })
-  ipc.on('Setting', (event, args) => 
-  {
-
-    mainWindow.loadFile('./src/app/Settings/Setting.html');
-  })
-  ipc.on('return', (event, args) => 
-  {
-
-    mainWindow.loadFile('./welcome.html');
-  })
+})
