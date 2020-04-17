@@ -80,12 +80,14 @@ app.on('ready', () => {
   win = new BrowserWindow({ show: false }); 
 });
 ipc.on('StartApp', (event, args) => {
+ 
+
+
   event.returnValue = 'StartApp';
   let shared=require("./src/app/shared/Shared.js");
 let response=shared.readSetting();
 console.log(args);
- if(args!="disabled")
- {
+ 
     console.log("Tracker Starts")
  //Screenshot
 let ScreenShot=require("./src/app/tracker/screenshot/ScreenShot.js");
@@ -123,10 +125,7 @@ mouseLogger();
   });
   
   },response.PostRequest)
- }else{
 
-  console.log("Tracker Paused")
- }
   /*--------------------------------------------------*/
  
 
@@ -227,4 +226,11 @@ ipc.on('StartTray', (event, args) => {
     trayIcon.setContextMenu(trayMenu)
 
     mainWindow.hide();
+})
+
+ipc.on('RestartProcess', (event, args) => {
+
+  const sleep = async (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
+  app.relaunch()
+  app.exit(0);
 })

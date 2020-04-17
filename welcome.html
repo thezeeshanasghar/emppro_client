@@ -35,13 +35,22 @@
                 Setting = document.querySelector('#Setting'),
                 PauseTracker = document.querySelector('#PauseTracker');
 
-
+                var i=0;
 
             StartTracker.addEventListener('click', () => {
+              
                 // var events = $._data(document.getElementById("StartTracker"), "events");
                 //try{
-                    console.log(event);
+              if(i>0)
+              {
+                    console.log("Already Clicked");
+              }else{
+
+                console.log(event);
                 ipc.sendSync('StartApp', 'Enable');
+                i++;
+              }
+                
                 // StartTracker.disabled = true;
                 // PauseTracker.disabled=false;
             //   }catch(ex)
@@ -53,7 +62,7 @@
             PauseTracker.addEventListener('click', () => {
               
 
-                    ipc.sendSync('StartApp', 'Disable');
+                    ipc.sendSync('RestartProcess', 'Disable');
                     // StartTracker.disabled = false;
                     // PauseTracker.disabled=true;
                 
